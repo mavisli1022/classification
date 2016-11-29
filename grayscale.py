@@ -5,6 +5,13 @@ import csv
 from scipy.misc import imread
 from scipy.misc import imresize
 from scipy.spatial import distance
+import numpy as np
+import scipy
+import os
+import csv
+from scipy.misc import imread
+from scipy.misc import imresize
+from scipy.spatial import distance
 from scipy.misc import imsave
 from os import listdir
 from os.path import isfile, join
@@ -26,14 +33,14 @@ def loadcsv():
                 continue
             else:
                 labels[i] = int(row[1])
-                print labels[i]
                 i = i+1
+    return labels
 
 
 def rgb2gray(rgb):
     r, g, b = rgb[:,:,0], rgb[:,:,1], rgb[:,:,2]
-    gray = 0.2989 * r + 0.5870 * g + 0.1140 * b
-    return gray/255.
+    grey = 0.2989*r + 0.5870*g + 0.1140*b
+    return grey/255.
 
 
 def i(in_path, out_path):
@@ -46,8 +53,16 @@ def i(in_path, out_path):
         for f in listdir(in_path):
             if isfile(join(in_path, f)):
                 image = rgb2gray(scipy.misc.imread(join(in_path, f)))
-                print np.array(image)
                 imsave(join(out_path, f), image)
 
+def saveToNpz():
+    path = '/Users/nanli/Desktop/CSC411-A3/kaggle-classification/train'
+    data_train = np.array([rgb2gray(scipy.misc.imread(name)) for name in os.listdir(path) if isfile(name)], dtype=np.float64)
+
+    labels = loadcsv()
+    np.savez('../train.npz',inputs_train = data_train, target_train = labels,
+             )
+
 if __name__ == '__main__':
+    saveToNpz()
 
