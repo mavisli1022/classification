@@ -34,7 +34,7 @@ def loadcsv():
             else:
                 labels[i] = int(row[1])
                 i = i+1
-    return labels
+    return labels.astype(int)
 
 
 def rgb2gray(rgb):
@@ -61,6 +61,14 @@ def saveToNpz():
     labels_valid = labels[6500:]
     np.savez('./train.npz',inputs_train = subarray, target_train = labels_train, inputs_valid = valid, target_valid = labels_valid)
 
+def one_hot_array():
+    labels = loadcsv()
+    res = []
+    for l in labels:
+        one_hot_array = [0]*8
+        one_hot_array[l-1] = 1
+        res.append(one_hot_array)
+    return np.asarray(res)
 
 
 if __name__ == '__main__':
