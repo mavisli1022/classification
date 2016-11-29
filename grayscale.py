@@ -56,13 +56,15 @@ def i(in_path, out_path):
                 imsave(join(out_path, f), image)
 
 def saveToNpz():
-    path = '/Users/nanli/Desktop/CSC411-A3/kaggle-classification/train'
-    data_train = np.array([rgb2gray(scipy.misc.imread(name)) for name in os.listdir(path) if isfile(name)], dtype=np.float64)
-
+    path = './train'
+    subarray = []
+    for f in listdir(path):
+        if isfile(join(path, f)):
+            subarray.append(rgb2gray(scipy.misc.imread(join(path, f))))
     labels = loadcsv()
-    np.savez('../train.npz',inputs_train = data_train, target_train = labels,
-             )
+    np.savez('./train.npz',inputs_train = subarray, target_train = labels)
+
+
 
 if __name__ == '__main__':
     saveToNpz()
-
