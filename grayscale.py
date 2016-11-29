@@ -43,26 +43,23 @@ def rgb2gray(rgb):
     return grey/255.
 
 
-def i(in_path, out_path):
-    if not os.path.exists(in_path):
-        return 'Input path does not exists, please enter a valid path'
-    if os.path.exists(out_path):
-        return 'Output path already exists, please enter a new path'
-    else:
-        os.makedirs(out_path)
-        for f in listdir(in_path):
-            if isfile(join(in_path, f)):
-                image = rgb2gray(scipy.misc.imread(join(in_path, f)))
-                imsave(join(out_path, f), image)
-
 def saveToNpz():
     path = './train'
     subarray = []
+    valid = []
+    index = 0
     for f in listdir(path):
         if isfile(join(path, f)):
-            subarray.append(rgb2gray(scipy.misc.imread(join(path, f))))
-    labels = loadcsv()
-    np.savez('./train.npz',inputs_train = subarray, target_train = labels)
+            index = index +1
+            if (index <= 6500):
+                subarray.append(rgb2gray(scipy.misc.imread(join(path, f))))
+            if (index > 6500):
+                valid.append(rgb2gray(scipy.misc.imread(join(path, f))))
+
+    labels= loadcsv()
+    labels_train = labels[:6500]
+    labels_valid = labels[6500:]
+    np.savez('./train.npz',inputs_train = subarray, target_train = labels_train, inputs_valid = valid, target_valid = labels_valid)
 
 
 
