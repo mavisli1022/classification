@@ -32,8 +32,8 @@ def loadcsv():
 
 def rgb2gray(rgb):
     r, g, b = rgb[:,:,0], rgb[:,:,1], rgb[:,:,2]
-    grey = 0.2989*r + 0.5870*g + 0.1140*b
-    return grey/255
+    gray = 0.2989 * r + 0.5870 * g + 0.1140 * b
+    return gray/255.
 
 
 def i(in_path, out_path):
