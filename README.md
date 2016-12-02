@@ -1,1 +1,1 @@
-# kaggle-classification
+# classification
